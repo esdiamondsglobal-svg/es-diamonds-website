@@ -115,7 +115,9 @@ export default function App() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-[#f8f1df]">
-      <header className="sticky top-0 z-50 border-b border-[#d4af37]/20 bg-[#050505]/85 backdrop-blur-xl">
+return (
+  <div>
+    <h1 style={{color:"red", fontSize:"50px"}}>TEST NEW WEBSITE</h1>      <header className="sticky top-0 z-50 border-b border-[#d4af37]/20 bg-[#050505]/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <a href="#home" className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#d4af37]/60 bg-[#111] shadow-[0_0_35px_rgba(212,175,55,0.18)]">
