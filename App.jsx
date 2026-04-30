@@ -1,786 +1,355 @@
-import React, { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  ChevronDown,
-  Gem,
-  Heart,
-  Instagram,
-  Mail,
-  Menu,
-  MessageCircle,
-  Phone,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Star,
-  X,
-} from "lucide-react";
+import React, { useState } from "react";
+import { Gem, Menu, X, ArrowRight, Upload, Phone, Mail, MapPin, Globe2, ShieldCheck, Sparkles, GraduationCap } from "lucide-react";
 
-const site = {
-  brand: "ES Diamonds",
-  domain: "www.esdiamondsglobal.com",
-  phone1: "+91-9111191190",
-  phone2: "+91-9111191125",
-  whatsapp: "919111191190",
-  instagram: "@esdiamondsglobal",
-};
-
-const categoryOrder = [
-  "Diamond Rings",
-  "Diamond Necklaces",
-  "Diamond Bracelets",
-  "Diamond Pens",
-  "Diamond Idols",
-  "Diamond Watches",
+const divisions = [
+  {
+    name: "ES Brass",
+    subtitle: "Handcrafted Brass Idols & Décor",
+    description: "Pure brass idols, spiritual showpieces, vastu décor and premium gifting pieces crafted by skilled Indian artisans.",
+    image: "https://images.unsplash.com/photo-1609947017136-9daf32a5eb16?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    name: "ES Silvers",
+    subtitle: "Silver Idols, Silverware & Luxury Gifting",
+    description: "Premium silver idols, spoons, bowls, dinner sets, utensils and handcrafted silver articles for homes and gifting.",
+    image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    name: "ES Diamonds",
+    subtitle: "Diamond Studded Idols & Custom Jewellery",
+    description: "High-value diamond-studded idols, custom jewellery, luxury watches and bespoke creations for global clients.",
+    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop",
+  },
 ];
-
-const diamondTypes = [
-  "Real Diamonds",
-  "Moissanite Diamonds",
-  "American Diamonds",
-  "Lab Grown Diamonds",
-];
-
-const metalTypes = [
-  "Silver",
-  "Rose Gold 9KT",
-  "Rose Gold 14KT",
-  "Rose Gold 18KT",
-  "White Gold 9KT",
-  "White Gold 14KT",
-  "White Gold 18KT",
-  "Yellow Gold 9KT",
-  "Yellow Gold 14KT",
-  "Yellow Gold 18KT",
-];
-
-const diamondMultipliers = {
-  "Real Diamonds": 1,
-  "Moissanite Diamonds": 0.42,
-  "American Diamonds": 0.18,
-  "Lab Grown Diamonds": 0.66,
-};
-
-const metalMultipliers = {
-  Silver: 0.55,
-  "Rose Gold 9KT": 0.78,
-  "Rose Gold 14KT": 0.9,
-  "Rose Gold 18KT": 1.05,
-  "White Gold 9KT": 0.79,
-  "White Gold 14KT": 0.92,
-  "White Gold 18KT": 1.08,
-  "Yellow Gold 9KT": 0.79,
-  "Yellow Gold 14KT": 0.91,
-  "Yellow Gold 18KT": 1.06,
-};
 
 const products = [
   {
-    id: 1,
-    slug: "celeste-ring",
-    name: "Celeste Diamond Ring",
-    category: "Diamond Rings",
-    basePrice: 82000,
-    tag: "Best Seller",
-    hero: "Made for refined everyday luxury and private commissions.",
-    image:
-      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?auto=format&fit=crop&w=1200&q=80",
-    ],
-    description:
-      "A premium statement ring designed to feel elegant, modern, and highly customizable across stone and metal choices.",
-    details: ["Bespoke finish", "Custom sizing", "Luxury gifting option", "Inquiry before payment"],
+    title: "Pure Brass Elephant Showpiece",
+    division: "ES Brass",
+    category: "Brass Decor",
+    image: "https://images.unsplash.com/photo-1609947017136-9daf32a5eb16?q=80&w=1200&auto=format&fit=crop",
+    description: "A handcrafted brass elephant showpiece symbolising prosperity, wisdom and timeless Indian craftsmanship.",
   },
   {
-    id: 2,
-    slug: "lustre-necklace",
-    name: "Lustre Diamond Necklace",
-    category: "Diamond Necklaces",
-    basePrice: 138000,
-    tag: "Signature",
-    hero: "A timeless necklace silhouette crafted for heirloom elegance.",
-    image:
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80",
-    ],
-    description:
-      "A refined necklace concept ideal for premium wear, gifting, and luxury presentation with multiple customization paths.",
-    details: ["Elegant daily wear", "Bridal styling", "Gift-ready presentation", "Inquiry before production"],
+    title: "Brass Durga Maa Idol",
+    division: "ES Brass",
+    category: "Brass Idols",
+    image: "https://images.unsplash.com/photo-1606293926075-69a00dbfde81?q=80&w=1200&auto=format&fit=crop",
+    description: "A powerful spiritual brass idol representing strength, protection and divine energy.",
   },
   {
-    id: 3,
-    slug: "radiant-bracelet",
-    name: "Radiant Tennis Bracelet",
-    category: "Diamond Bracelets",
-    basePrice: 99000,
-    tag: "Luxury Edit",
-    hero: "Graceful brilliance for contemporary luxury styling.",
-    image:
-      "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1619119069152-a2b331eb392a?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=80",
-    ],
-    description:
-      "A polished bracelet design built for premium gifting and custom luxury orders with flexible stone and metal options.",
-    details: ["Lightweight luxury feel", "Multiple finish options", "Custom quote flow", "Premium packaging"],
+    title: "925 Sterling Silver Lotus Spoon",
+    division: "ES Silvers",
+    category: "Silver Utensils",
+    image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=1200&auto=format&fit=crop",
+    description: "A premium silver spoon with elegant lotus-inspired detailing for luxury dining and gifting.",
   },
   {
-    id: 4,
-    slug: "imperial-pen",
-    name: "Imperial Diamond Pen",
-    category: "Diamond Pens",
-    basePrice: 21000,
-    tag: "Corporate Luxury",
-    hero: "Distinctive luxury writing elevated through bespoke finishing.",
-    image:
-      "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
-    ],
-    description:
-      "A premium pen category for gifting, collectors, and statement desk accessories with customized material direction.",
-    details: ["Giftable luxury concept", "Brand-worthy finish", "Stone selection options", "Inquiry-first model"],
+    title: "999 Pure Silver Ganesh Idol",
+    division: "ES Silvers",
+    category: "Silver Idols",
+    image: "https://images.unsplash.com/photo-1606293926075-69a00dbfde81?q=80&w=1200&auto=format&fit=crop",
+    description: "A refined silver Ganesh idol designed for gifting, pooja rooms and modern spiritual spaces.",
   },
   {
-    id: 5,
-    slug: "divine-idol",
-    name: "Divine Diamond Idol",
+    title: "Diamond Studded Ganesh Idol",
+    division: "ES Diamonds",
     category: "Diamond Idols",
-    basePrice: 225000,
-    tag: "Bespoke",
-    hero: "Handcrafted devotional luxury for custom commissions and collectors.",
-    image:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=80",
-    ],
-    description:
-      "A bespoke idol experience positioned for high-value spiritual gifting and premium handcrafted luxury.",
-    details: ["High-value custom work", "Premium metal choices", "Stone variation support", "Manual quote and timeline"],
+    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop",
+    description: "A bespoke diamond-studded idol crafted for collectors, temples and luxury devotional gifting.",
   },
   {
-    id: 6,
-    slug: "prestige-watch",
-    name: "Prestige Diamond Watch",
-    category: "Diamond Watches",
-    basePrice: 165000,
-    tag: "Collector Pick",
-    hero: "A bold timepiece concept built for statement luxury presentation.",
-    image:
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?auto=format&fit=crop&w=1200&q=80",
-    ],
-    description:
-      "A luxury watch category designed for collectors, gifting, and premium styling with tailored finish options.",
-    details: ["Statement product category", "Material flexibility", "Inquiry-led sales", "Luxury brand positioning"],
+    title: "Custom Diamond Jewellery Design",
+    division: "ES Diamonds",
+    category: "Custom Jewellery",
+    image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1200&auto=format&fit=crop",
+    description: "Custom jewellery creation with options in diamond type, metal, design, budget and finish.",
   },
 ];
 
-const testimonials = [
+const education = [
   {
-    name: "Luxury Buyer",
-    text: "The website feels premium and makes the inquiry journey feel exclusive rather than transactional.",
+    title: "Diamond Awareness Workshop",
+    duration: "2–3 Days",
+    text: "A beginner-friendly practical workshop for jewellery buyers, students and professionals who want to understand diamonds before buying or selling.",
   },
   {
-    name: "Custom Client",
-    text: "I liked being able to understand options first and then inquire with confidence.",
+    title: "Smart Diamond Buying Program",
+    duration: "10 Days",
+    text: "Learn 4Cs, certifications, price comparison, quality differences and smart decision-making while buying diamond jewellery.",
   },
   {
-    name: "Jewellery Enthusiast",
-    text: "A luxury brand should look this polished online. The experience feels elegant and serious.",
-  },
-];
-
-const faqs = [
-  {
-    q: "Do you accept direct payment online?",
-    a: "This website is built as an inquiry-first luxury platform. Clients first submit their requirement and then receive a custom quote.",
+    title: "Advanced Diamond Training Program",
+    duration: "6 Weeks",
+    text: "In-depth practical training in diamond grading, assorting, valuation, sourcing, certification, pricing and live market exposure.",
   },
   {
-    q: "Can every product be customized?",
-    a: "Yes. Every category supports customization in diamond type and metal type before order confirmation.",
-  },
-  {
-    q: "How do I receive pricing?",
-    a: "Pricing is shared after understanding your preferred category, diamond type, metal, design scope, and production requirement.",
-  },
-  {
-    q: "Can I request something fully bespoke?",
-    a: "Yes. The platform is designed to support fully custom requests as well as curated designs across all categories.",
+    title: "Corporate Training for Jewellery Showrooms",
+    duration: "Custom Modules",
+    text: "Training for jewellery showroom teams in product knowledge, luxury customer handling, sales, objection management and diamond education.",
   },
 ];
 
-function formatPrice(value) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
+const filters = ["All", "ES Brass", "ES Silvers", "ES Diamonds"];
 
-function estimatePrice(basePrice, diamondType, metalType) {
-  return Math.round(basePrice * diamondMultipliers[diamondType] * metalMultipliers[metalType]);
-}
-
-function scrollToId(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function SelectField({ label, value, onChange, options, dark = false }) {
-  return (
-    <label className="block">
-      <span className={`mb-2 block text-[11px] font-medium uppercase tracking-[0.28em] ${dark ? "text-zinc-400" : "text-zinc-500"}`}>
-        {label}
-      </span>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`w-full appearance-none rounded-2xl border px-4 py-3 text-sm outline-none ${dark ? "border-white/15 bg-white/5 text-white" : "border-zinc-300 bg-white text-zinc-900"}`}
-        >
-          {options.map((option) => (
-            <option key={option} value={option} className="text-black">
-              {option}
-            </option>
-          ))}
-        </select>
-        <ChevronDown className={`pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 ${dark ? "text-zinc-400" : "text-zinc-500"}`} />
-      </div>
-    </label>
-  );
-}
-
-function CategoryTile({ title, image, onClick }) {
-  return (
-    <button onClick={onClick} className="group relative overflow-hidden rounded-[28px] text-left">
-      <img src={image} alt={title} className="h-72 w-full object-cover transition duration-500 group-hover:scale-105" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-white/75">Collection</p>
-        <div className="mt-2 flex items-center justify-between gap-4">
-          <h3 className="text-2xl font-semibold">{title}</h3>
-          <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
-        </div>
-      </div>
-    </button>
-  );
-}
-
-function ProductCard({ product, onOpen }) {
-  const [diamondType, setDiamondType] = useState("Real Diamonds");
-  const [metalType, setMetalType] = useState("Yellow Gold 18KT");
-  const estimated = estimatePrice(product.basePrice, diamondType, metalType);
-
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -6 }}
-      className="group overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-sm"
-    >
-      <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
-        <img src={product.image} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-        <div className="absolute left-4 top-4 rounded-full bg-black/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-white">
-          {product.tag}
-        </div>
-        <button className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-zinc-900 shadow">
-          <Heart size={16} />
-        </button>
-      </div>
-
-      <div className="space-y-4 p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">{product.category}</p>
-            <h3 className="mt-1 text-xl font-semibold text-zinc-900">{product.name}</h3>
-          </div>
-          <div className="text-right">
-            <div className="text-base font-semibold text-zinc-900">{formatPrice(estimated)}</div>
-            <div className="text-xs text-zinc-500">Estimated quote</div>
-          </div>
-        </div>
-
-        <p className="text-sm leading-6 text-zinc-600">{product.description}</p>
-
-        <div className="grid gap-3">
-          <SelectField label="Diamond Type" value={diamondType} onChange={setDiamondType} options={diamondTypes} />
-          <SelectField label="Metal Type" value={metalType} onChange={setMetalType} options={metalTypes} />
-        </div>
-
-        <div className="rounded-2xl bg-[#faf7f1] p-4">
-          <div className="flex items-start gap-3">
-            <Check className="mt-0.5 h-4 w-4 text-zinc-700" />
-            <p className="text-sm leading-6 text-zinc-700">Every design supports stone category and metal customization before final confirmation.</p>
-          </div>
-        </div>
-
-        <div className="flex gap-3">
-          <button onClick={() => onOpen(product)} className="flex-1 rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-black">
-            View Product
-          </button>
-          <button onClick={() => scrollToId("inquiry")} className="rounded-2xl border border-zinc-300 px-4 py-3 text-sm font-medium text-zinc-800 transition hover:bg-zinc-50">
-            Inquire
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function ProductModal({ product, onClose }) {
-  const [diamondType, setDiamondType] = useState("Real Diamonds");
-  const [metalType, setMetalType] = useState("Yellow Gold 18KT");
-  const [activeImage, setActiveImage] = useState(product.gallery[0]);
-  const estimated = estimatePrice(product.basePrice, diamondType, metalType);
-
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.98 }}
-          className="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-[32px] bg-[#f8f4ed] p-4 shadow-2xl sm:p-6"
-        >
-          <div className="mb-4 flex items-center justify-between gap-4">
-            <button onClick={onClose} className="inline-flex items-center gap-2 rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm font-medium text-zinc-900">
-              <ArrowLeft size={16} /> Back
-            </button>
-            <button onClick={onClose} className="rounded-full bg-white p-3 text-zinc-900 shadow-sm">
-              <X size={18} />
-            </button>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <div className="overflow-hidden rounded-[28px] bg-white p-3 shadow-sm">
-                <img src={activeImage} alt={product.name} className="h-[520px] w-full rounded-[22px] object-cover" />
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-3">
-                {product.gallery.map((img) => (
-                  <button key={img} onClick={() => setActiveImage(img)} className={`overflow-hidden rounded-[20px] border p-1 ${activeImage === img ? "border-zinc-900" : "border-zinc-200"}`}>
-                    <img src={img} alt={product.name} className="h-28 w-full rounded-[16px] object-cover" />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[28px] bg-white p-6 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">{product.category}</p>
-              <h2 className="mt-2 text-3xl font-semibold">{product.name}</h2>
-              <p className="mt-4 text-base leading-8 text-zinc-600">{product.hero}</p>
-
-              <div className="mt-6 rounded-[24px] bg-[#faf7f1] p-5">
-                <div className="text-sm text-zinc-500">Estimated quote</div>
-                <div className="mt-1 text-3xl font-semibold text-zinc-900">{formatPrice(estimated)}</div>
-                <div className="mt-2 text-sm leading-6 text-zinc-600">Final quotation is shared after inquiry and specification review.</div>
-              </div>
-
-              <div className="mt-6 grid gap-4">
-                <SelectField label="Diamond Type" value={diamondType} onChange={setDiamondType} options={diamondTypes} />
-                <SelectField label="Metal Type" value={metalType} onChange={setMetalType} options={metalTypes} />
-              </div>
-
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold">Product details</h3>
-                <div className="mt-4 grid gap-3">
-                  {product.details.map((detail) => (
-                    <div key={detail} className="flex items-start gap-3 rounded-2xl border border-zinc-200 p-4">
-                      <Check className="mt-0.5 h-4 w-4 text-zinc-800" />
-                      <p className="text-sm leading-6 text-zinc-700">{detail}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button onClick={() => { onClose(); scrollToId("inquiry"); }} className="rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-medium text-white">
-                  Request Quote
-                </button>
-                <a href={`https://wa.me/${site.whatsapp}`} className="rounded-2xl border border-zinc-300 bg-white px-5 py-3 text-sm font-medium text-zinc-900">
-                  WhatsApp Inquiry
-                </a>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
-function InquiryForm() {
-  const [category, setCategory] = useState(categoryOrder[0]);
-  const [diamondType, setDiamondType] = useState(diamondTypes[0]);
-  const [metalType, setMetalType] = useState(metalTypes[0]);
-
-  return (
-    <div id="inquiry" className="rounded-[32px] bg-zinc-900 p-8 text-white shadow-sm">
-      <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-400">Custom inquiry</p>
-      <h2 className="mt-2 text-3xl font-semibold">Request your quotation</h2>
-      <p className="mt-3 max-w-xl text-sm leading-7 text-zinc-300">
-        Start with your preferred category, stone type, metal finish, and any specific customization details. You can connect your real form handler when launching.
-      </p>
-
-      <form className="mt-8 grid gap-4" onSubmit={(e) => e.preventDefault()}>
-        <input className="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-zinc-400" placeholder="Full name" />
-        <input className="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-zinc-400" placeholder="Phone / WhatsApp" />
-        <input className="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-zinc-400" placeholder="Email address" />
-        <SelectField label="Product Category" value={category} onChange={setCategory} options={categoryOrder} dark />
-        <SelectField label="Diamond Type" value={diamondType} onChange={setDiamondType} options={diamondTypes} dark />
-        <SelectField label="Metal Type" value={metalType} onChange={setMetalType} options={metalTypes} dark />
-        <textarea className="h-32 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-zinc-400" placeholder="Tell us your requirement, size, concept, budget range, or any reference idea" />
-        <button className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-medium text-zinc-900">
-          Submit Inquiry <ArrowRight size={16} />
-        </button>
-      </form>
-    </div>
-  );
-}
-
-export default function ESDiamondsLaunchReadyWebsite() {
+export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("All");
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      const categoryMatch = activeCategory === "All" || product.category === activeCategory;
-      const searchMatch = `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(search.toLowerCase());
-      return categoryMatch && searchMatch;
-    });
-  }, [activeCategory, search]);
-
-  const categoryHeroImages = {
-    "Diamond Rings": products[0].image,
-    "Diamond Necklaces": products[1].image,
-    "Diamond Bracelets": products[2].image,
-    "Diamond Pens": products[3].image,
-    "Diamond Idols": products[4].image,
-    "Diamond Watches": products[5].image,
-  };
+  const filteredProducts = activeFilter === "All" ? products : products.filter((item) => item.division === activeFilter);
 
   return (
-    <div className="min-h-screen bg-[#f6f1ea] text-zinc-900">
-      <header className="sticky top-0 z-50 border-b border-black/5 bg-[#f6f1ea]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <button onClick={() => scrollToId("top")} className="flex items-center gap-3 text-left">
-            <div className="overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-sm">
-              <img src="/mnt/data/ChatGPT Image Jan 8, 2026, 10_14_58 PM.png" alt="ES Diamonds logo" className="h-14 w-14 object-cover" />
+    <div className="min-h-screen bg-[#faf7ef] text-[#17130c]">
+      <header className="sticky top-0 z-50 border-b border-[#d8c690]/50 bg-[#faf7ef]/90 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#c9a646] bg-white shadow-sm">
+              <Gem className="h-6 w-6 text-[#b8942f]" />
             </div>
             <div>
-              <div className="text-lg font-semibold tracking-[0.22em]">{site.brand}</div>
-              <div className="text-[11px] uppercase tracking-[0.36em] text-zinc-500">{site.domain}</div>
+              <h1 className="font-serif text-xl tracking-[0.2em]">ES DIAMONDS</h1>
+              <p className="text-[10px] uppercase tracking-[0.32em] text-[#7a6a43]">Global Luxury</p>
             </div>
-          </button>
+          </div>
 
-          <nav className="hidden items-center gap-8 md:flex">
-            <button onClick={() => scrollToId("home")} className="text-sm text-zinc-700 hover:text-black">Home</button>
-            <button onClick={() => scrollToId("categories")} className="text-sm text-zinc-700 hover:text-black">Categories</button>
-            <button onClick={() => scrollToId("products")} className="text-sm text-zinc-700 hover:text-black">Products</button>
-            <button onClick={() => scrollToId("about")} className="text-sm text-zinc-700 hover:text-black">About</button>
-            <button onClick={() => scrollToId("contact")} className="text-sm text-zinc-700 hover:text-black">Contact</button>
+          <nav className="hidden items-center gap-7 text-xs uppercase tracking-[0.18em] text-[#4b432f] lg:flex">
+            <a href="#brands">Brands</a>
+            <a href="#products">Products</a>
+            <a href="#education">Education</a>
+            <a href="#studio">Custom Studio</a>
+            <a href="#contact">Contact</a>
           </nav>
 
-          <div className="hidden items-center gap-3 md:flex">
-            <button onClick={() => scrollToId("products")} className="rounded-2xl border border-zinc-300 px-5 py-3 text-sm font-medium text-zinc-900">
-              Explore
-            </button>
-            <button onClick={() => scrollToId("inquiry")} className="rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-medium text-white">
-              Request Quote
-            </button>
-          </div>
+          <a href="#contact" className="hidden rounded-full bg-[#111] px-6 py-3 text-sm text-white transition hover:bg-[#2c2416] md:inline-flex">
+            Enquire Now
+          </a>
 
-          <button className="rounded-2xl border border-zinc-300 p-3 md:hidden" onClick={() => setMenuOpen((v) => !v)}>
-            {menuOpen ? <X size={18} /> : <Menu size={18} />}
+          <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
 
         {menuOpen && (
-          <div className="border-t border-black/5 bg-white md:hidden">
-            <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
-              {[
-                ["Home", "home"],
-                ["Categories", "categories"],
-                ["Products", "products"],
-                ["About", "about"],
-                ["Contact", "contact"],
-              ].map(([label, id]) => (
-                <button key={id} onClick={() => { setMenuOpen(false); scrollToId(id); }} className="text-left text-sm text-zinc-700">
-                  {label}
-                </button>
-              ))}
-              <button onClick={() => { setMenuOpen(false); scrollToId("inquiry"); }} className="rounded-2xl bg-zinc-900 px-5 py-3 text-center text-sm font-medium text-white">
-                Request Quote
-              </button>
+          <div className="border-t border-[#d8c690]/40 px-5 py-5 lg:hidden">
+            <div className="flex flex-col gap-4 text-sm uppercase tracking-[0.18em]">
+              <a href="#brands">Brands</a>
+              <a href="#products">Products</a>
+              <a href="#education">Education</a>
+              <a href="#studio">Custom Studio</a>
+              <a href="#contact">Contact</a>
             </div>
           </div>
         )}
       </header>
 
-      <section id="home" className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-24">
-        <div>
-          <p className="mb-4 text-[11px] uppercase tracking-[0.4em] text-zinc-500">Launch-ready premium jewellery website</p>
-          <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-            A luxury digital flagship for ES Diamonds.
-          </h1>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-600 sm:text-lg">
-            Built for premium inquiries, elegant brand positioning, and product discovery across diamond rings, necklaces, bracelets, pens, idols, and watches.
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
-            <button onClick={() => scrollToId("products")} className="rounded-2xl bg-zinc-900 px-6 py-3 text-sm font-medium text-white">
-              View Products
-            </button>
-            <button onClick={() => scrollToId("inquiry")} className="rounded-2xl border border-zinc-300 bg-white px-6 py-3 text-sm font-medium text-zinc-900">
-              Start Inquiry
-            </button>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {[
-              { icon: ShieldCheck, label: "Inquiry-first model" },
-              { icon: Sparkles, label: "Luxury presentation" },
-              { icon: Gem, label: "Custom stone & metal" },
-            ].map((item) => (
-              <div key={item.label} className="rounded-[24px] border border-zinc-200 bg-white p-5 shadow-sm">
-                <item.icon className="mb-3 h-5 w-5" />
-                <p className="text-sm font-medium text-zinc-800">{item.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="relative overflow-hidden rounded-[34px] border border-white/60 bg-white p-3 shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=1600&q=80" alt="Luxury jewellery showcase" className="h-[560px] w-full rounded-[26px] object-cover" />
-          <div className="absolute bottom-8 left-8 right-8 rounded-[28px] bg-white/88 p-6 shadow-lg backdrop-blur">
-            <p className="text-[11px] uppercase tracking-[0.34em] text-zinc-500">Featured experience</p>
-            <h2 className="mt-2 text-2xl font-semibold">Customization before confirmation</h2>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">Let clients select the stone category and metal type before receiving a quote and production timeline.</p>
-          </div>
-        </motion.div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 lg:px-8">
-        <div className="grid gap-4 rounded-[32px] bg-zinc-900 p-6 text-white sm:grid-cols-2 lg:grid-cols-4 lg:p-8">
-          {[
-            "Customization in diamond type and metal type for every product",
-            "Luxury inquiry journey instead of instant checkout",
-            "Premium layout suitable for high-value jewellery positioning",
-            "Ready to connect with domain, hosting, and real form submission",
-          ].map((item) => (
-            <div key={item} className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-              <p className="text-sm leading-7 text-zinc-200">{item}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="categories" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Category pages</p>
-          <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Explore all product categories</h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {categoryOrder.map((category) => (
-            <CategoryTile
-              key={category}
-              title={category}
-              image={categoryHeroImages[category]}
-              onClick={() => {
-                setActiveCategory(category);
-                scrollToId("products");
-              }}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section id="products" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-8">
-        <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+      <section className="relative overflow-hidden">
+        <div className="absolute right-[-120px] top-[-120px] h-96 w-96 rounded-full bg-[#d4af37]/10 blur-3xl" />
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 md:grid-cols-2 md:py-28">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Products</p>
-            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Launch-ready product pages</h2>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="flex items-center gap-2 rounded-2xl border border-zinc-300 bg-white px-4 py-3">
-              <Search size={17} className="text-zinc-500" />
-              <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search product" className="w-full bg-transparent text-sm outline-none placeholder:text-zinc-400 sm:w-56" />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {["All", ...categoryOrder].map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-2xl px-4 py-3 text-sm font-medium transition ${activeCategory === category ? "bg-zinc-900 text-white" : "border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50"}`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onOpen={setSelectedProduct} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-[32px] bg-white p-8 shadow-sm">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">How it works</p>
-            <h2 className="mt-2 text-3xl font-semibold">A premium inquiry journey.</h2>
-            <div className="mt-8 space-y-5">
-              {[
-                ["Choose Your Product", "Select a category or product page that matches your requirement."],
-                ["Pick Stone & Metal", "Choose real diamonds, moissanite, American diamonds, or lab grown with your preferred metal type."],
-                ["Send Inquiry", "Share your exact requirement and receive a tailored quotation before payment."],
-                ["Confirm & Produce", "Finalize specification, timeline, and production details directly with ES Diamonds."],
-              ].map(([title, text], index) => (
-                <div key={title} className="flex gap-4 rounded-[24px] border border-zinc-200 p-5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-sm font-semibold text-white">{index + 1}</div>
-                  <div>
-                    <h3 className="text-lg font-semibold">{title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-zinc-600">{text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <InquiryForm />
-        </div>
-      </section>
-
-      <section id="about" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-16">
-        <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
-          <div className="rounded-[32px] bg-white p-8 shadow-sm">
-            <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">About ES Diamonds</p>
-            <h2 className="mt-2 text-3xl font-semibold">Luxury presentation backed by diamond expertise.</h2>
-            <p className="mt-5 text-base leading-8 text-zinc-600">
-              This website is positioned as a premium brand destination where visitors can explore categories, view product experiences, understand customization, and submit serious inquiries before payment. The focus is trust, elegance, and high-quality lead generation.
+            <p className="mb-5 text-sm uppercase tracking-[0.36em] text-[#a47f1d]">India to the World</p>
+            <h2 className="font-serif text-5xl leading-tight md:text-7xl">Luxury Indian Craftsmanship for Global Buyers</h2>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[#5c523b]">
+              ES Diamonds Global brings together handcrafted brass idols, premium silverware, diamond-studded creations, custom jewellery and diamond education under one luxury platform.
             </p>
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+              <a href="#products" className="inline-flex items-center justify-center rounded-full bg-[#111] px-8 py-4 text-white transition hover:bg-[#2c2416]">
+                Explore Collections <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+              <a href="#studio" className="inline-flex items-center justify-center rounded-full border border-[#b8942f] px-8 py-4 text-[#111] transition hover:bg-white">
+                Request Custom Quote
+              </a>
+            </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              "Custom-first experience for high-value buyers",
-              "Multiple diamond options for broader market fit",
-              "Metal selection with karat flexibility",
-              "Premium structure ready for live deployment",
-            ].map((item) => (
-              <div key={item} className="rounded-[28px] border border-zinc-200 bg-[#faf7f1] p-6">
-                <Gem className="mb-4 h-5 w-5" />
-                <p className="text-sm leading-7 text-zinc-700">{item}</p>
-              </div>
-            ))}
+
+          <div className="relative">
+            <div className="rounded-[2rem] border border-[#d8c690]/60 bg-white p-3 shadow-2xl shadow-[#d4af37]/10">
+              <img
+                src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1400&auto=format&fit=crop"
+                alt="ES Diamonds luxury craftsmanship"
+                className="h-[520px] w-full rounded-[1.6rem] object-cover"
+              />
+            </div>
+            <div className="absolute bottom-8 left-8 rounded-2xl bg-white/90 p-5 shadow-xl backdrop-blur-md">
+              <p className="font-serif text-2xl">Inquiry-Based Luxury</p>
+              <p className="mt-1 text-sm text-[#6b6044]">No payment gateway • Custom quotes only</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-16">
-        <div className="rounded-[32px] bg-white p-8 shadow-sm">
-          <div className="mb-8 flex items-end justify-between gap-6">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Client sentiment</p>
-              <h2 className="mt-2 text-3xl font-semibold">A premium brand should feel premium online.</h2>
-            </div>
-            <div className="hidden items-center gap-1 text-zinc-500 md:flex">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star key={star} className="h-4 w-4 fill-current" />
-              ))}
-            </div>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {testimonials.map((item) => (
-              <div key={item.name} className="rounded-[28px] border border-zinc-200 bg-[#faf7f1] p-6">
-                <p className="text-sm leading-7 text-zinc-700">“{item.text}”</p>
-                <p className="mt-5 text-sm font-semibold text-zinc-900">{item.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:pb-16">
-        <div className="grid gap-6 lg:grid-cols-2">
-          {faqs.map((item) => (
-            <div key={item.q} className="rounded-[28px] border border-zinc-200 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold">{item.q}</h3>
-              <p className="mt-3 text-sm leading-7 text-zinc-600">{item.a}</p>
+      <section className="border-y border-[#d8c690]/40 bg-white py-8">
+        <div className="mx-auto grid max-w-7xl gap-5 px-5 md:grid-cols-4">
+          {[
+            [Globe2, "Global Enquiries"],
+            [ShieldCheck, "Premium Craftsmanship"],
+            [Sparkles, "Custom Made"],
+            [Gem, "Diamond Expertise"],
+          ].map(([Icon, text]) => (
+            <div key={text} className="flex items-center justify-center gap-3 text-sm uppercase tracking-[0.18em] text-[#5c523b]">
+              <Icon className="h-5 w-5 text-[#b8942f]" />
+              {text}
             </div>
           ))}
         </div>
       </section>
 
-      <section id="contact" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:pb-16">
-        <div className="grid gap-6 rounded-[32px] border border-zinc-200 bg-white p-8 shadow-sm lg:grid-cols-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Contact</p>
-            <h2 className="mt-2 text-2xl font-semibold">Connect with ES Diamonds</h2>
+      <section id="brands" className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mb-12 text-center">
+          <p className="text-sm uppercase tracking-[0.36em] text-[#a47f1d]">Our Divisions</p>
+          <h3 className="mt-3 font-serif text-4xl md:text-5xl">Three Premium ES Collections</h3>
+        </div>
+
+        <div className="grid gap-7 md:grid-cols-3">
+          {divisions.map((item) => (
+            <div key={item.name} className="group overflow-hidden rounded-[2rem] border border-[#d8c690]/60 bg-white shadow-sm transition hover:shadow-xl">
+              <div className="relative h-72 overflow-hidden">
+                <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5 text-white">
+                  <h4 className="font-serif text-3xl">{item.name}</h4>
+                  <p className="mt-1 text-sm text-white/80">{item.subtitle}</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-sm leading-7 text-[#6b6044]">{item.description}</p>
+                <a href="#products" onClick={() => setActiveFilter(item.name)} className="mt-5 inline-flex rounded-full bg-[#111] px-5 py-3 text-sm text-white hover:bg-[#2c2416]">
+                  View Collection
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="products" className="bg-[#111] py-20 text-white">
+        <div className="mx-auto max-w-7xl px-5">
+          <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.36em] text-[#d4af37]">Product Catalogue</p>
+              <h3 className="mt-3 font-serif text-4xl md:text-5xl">Luxury Collections</h3>
+              <p className="mt-4 max-w-2xl text-white/65">Every product is listed for enquiry only. Customers can request price, customization, bulk order or international shipping details.</p>
+            </div>
           </div>
-          <div className="rounded-[24px] bg-[#faf7f1] p-5">
-            <Phone className="mb-3 h-5 w-5" />
-            <p className="text-sm font-medium">{site.phone1}</p>
-            <p className="mt-1 text-sm text-zinc-600">Primary support</p>
+
+          <div className="mb-9 flex gap-3 overflow-x-auto pb-2">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`whitespace-nowrap rounded-full border px-5 py-3 text-sm transition ${activeFilter === filter ? "border-[#d4af37] bg-[#d4af37] text-[#111]" : "border-white/15 bg-white/5 text-white hover:border-[#d4af37]"}`}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
-          <div className="rounded-[24px] bg-[#faf7f1] p-5">
-            <Phone className="mb-3 h-5 w-5" />
-            <p className="text-sm font-medium">{site.phone2}</p>
-            <p className="mt-1 text-sm text-zinc-600">Secondary support</p>
-          </div>
-          <div className="rounded-[24px] bg-[#faf7f1] p-5">
-            <Instagram className="mb-3 h-5 w-5" />
-            <p className="text-sm font-medium">{site.instagram}</p>
-            <p className="mt-1 text-sm text-zinc-600">Brand showcase</p>
+
+          <div className="grid gap-7 md:grid-cols-3">
+            {filteredProducts.map((product) => (
+              <div key={product.title} className="overflow-hidden rounded-[1.8rem] border border-white/10 bg-white/[0.06] shadow-sm transition hover:bg-white/[0.09]">
+                <img src={product.image} alt={product.title} className="h-72 w-full object-cover" />
+                <div className="p-6">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <p className="text-xs uppercase tracking-[0.22em] text-[#d4af37]">{product.division}</p>
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/70">{product.category}</span>
+                  </div>
+                  <h4 className="font-serif text-2xl">{product.title}</h4>
+                  <p className="mt-3 text-sm leading-6 text-white/65">{product.description}</p>
+                  <a href="#contact" className="mt-5 inline-flex rounded-full bg-white px-5 py-3 text-sm text-[#111] hover:bg-[#d4af37]">
+                    Request Price
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-black/5 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-zinc-600 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <p>© 2026 {site.brand}. All rights reserved.</p>
-          <div className="flex flex-wrap gap-5">
-            <button onClick={() => scrollToId("products")} className="hover:text-black">Products</button>
-            <button onClick={() => scrollToId("inquiry")} className="hover:text-black">Inquiry</button>
-            <button onClick={() => scrollToId("contact")} className="hover:text-black">Contact</button>
+      <section id="education" className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div>
+            <p className="text-sm uppercase tracking-[0.36em] text-[#a47f1d]">Education</p>
+            <h3 className="mt-3 font-serif text-4xl md:text-5xl">Diamond Workshops & Seminars</h3>
+            <p className="mt-4 max-w-3xl text-[#6b6044]">A dedicated section for ES Diamonds workshops, seminars, advanced diamond training and corporate training for jewellery showrooms.</p>
+          </div>
+          <GraduationCap className="h-12 w-12 text-[#b8942f]" />
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-4">
+          {education.map((item) => (
+            <div key={item.title} className="rounded-[1.8rem] border border-[#d8c690]/60 bg-white p-6 shadow-sm">
+              <p className="mb-3 text-xs uppercase tracking-[0.22em] text-[#a47f1d]">{item.duration}</p>
+              <h4 className="font-serif text-2xl">{item.title}</h4>
+              <p className="mt-4 text-sm leading-7 text-[#6b6044]">{item.text}</p>
+              <a href="#contact" className="mt-6 inline-flex rounded-full bg-[#111] px-5 py-3 text-sm text-white hover:bg-[#2c2416]">Enquire</a>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="studio" className="bg-white py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-2">
+          <div>
+            <p className="text-sm uppercase tracking-[0.36em] text-[#a47f1d]">Custom Design Studio</p>
+            <h3 className="mt-3 font-serif text-4xl md:text-5xl">Upload Your Design & Request an Estimate</h3>
+            <p className="mt-6 max-w-xl leading-8 text-[#6b6044]">Customers can share reference images, sketches, jewellery designs, idol concepts or product ideas. Your team can review the details and send an estimate for comparison before order confirmation.</p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-3xl border border-[#d8c690]/60 bg-[#faf7ef] p-5">
+                <Upload className="mb-3 text-[#b8942f]" />
+                <h4 className="font-serif text-xl">Upload Reference</h4>
+                <p className="mt-2 text-sm text-[#6b6044]">Image, sketch, screenshot or product idea.</p>
+              </div>
+              <div className="rounded-3xl border border-[#d8c690]/60 bg-[#faf7ef] p-5">
+                <Gem className="mb-3 text-[#b8942f]" />
+                <h4 className="font-serif text-xl">Get Quote</h4>
+                <p className="mt-2 text-sm text-[#6b6044]">Estimate by metal, stone, size, finish and timeline.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-[#d8c690]/60 bg-[#faf7ef] p-7 shadow-sm">
+            <h4 className="font-serif text-3xl">Request Estimate</h4>
+            <div className="mt-6 grid gap-4">
+              <input className="rounded-2xl border border-[#d8c690] bg-white px-4 py-4 outline-none" placeholder="Your Name" />
+              <input className="rounded-2xl border border-[#d8c690] bg-white px-4 py-4 outline-none" placeholder="Phone / WhatsApp with Country Code" />
+              <input className="rounded-2xl border border-[#d8c690] bg-white px-4 py-4 outline-none" placeholder="Email Address" />
+              <select className="rounded-2xl border border-[#d8c690] bg-white px-4 py-4 outline-none">
+                <option>Select Product Type</option>
+                <option>Jewellery</option>
+                <option>Diamond Idol</option>
+                <option>Silverware</option>
+                <option>Brass Idol</option>
+                <option>Custom Gift</option>
+              </select>
+              <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-[#b8942f] bg-white px-4 py-8 text-center">
+                <Upload className="mb-3 h-7 w-7 text-[#b8942f]" />
+                <span className="font-medium">Upload Design Reference</span>
+                <span className="mt-1 text-xs text-[#6b6044]">JPG, PNG or PDF</span>
+                <input type="file" className="hidden" />
+              </label>
+              <textarea className="min-h-28 rounded-2xl border border-[#d8c690] bg-white px-4 py-4 outline-none" placeholder="Mention size, budget, country, timeline and custom details" />
+              <a href="https://wa.me/919111191190" className="inline-flex justify-center rounded-full bg-[#111] px-8 py-4 text-white hover:bg-[#2c2416]">Submit Enquiry</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer id="contact" className="border-t border-[#d8c690]/50 bg-[#111] text-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-3">
+          <div>
+            <h3 className="font-serif text-3xl tracking-[0.12em]">ES DIAMONDS GLOBAL</h3>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/65">A premium global platform for brass idols, silverware, diamond-studded creations, custom jewellery and diamond education.</p>
+          </div>
+          <div className="space-y-4 text-sm text-white/75">
+            <p className="flex items-center gap-3"><Phone className="h-4 w-4 text-[#d4af37]" /> +91-9111191190</p>
+            <p className="flex items-center gap-3"><Phone className="h-4 w-4 text-[#d4af37]" /> +91-9111191125</p>
+            <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[#d4af37]" /> www.esdiamondsglobal.com</p>
+          </div>
+          <div className="space-y-4 text-sm text-white/75">
+            <p className="flex items-center gap-3"><MapPin className="h-4 w-4 text-[#d4af37]" /> Indore, Madhya Pradesh, India</p>
+            <p className="uppercase tracking-[0.18em] text-[#d4af37]">ES Brass • ES Silvers • ES Diamonds • Education</p>
           </div>
         </div>
       </footer>
-
-      <a href={`https://wa.me/${site.whatsapp}`} className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-green-500 px-5 py-3 text-sm font-medium text-white shadow-lg">
-        <MessageCircle size={18} /> Inquiry on WhatsApp
-      </a>
-
-      {selectedProduct ? <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} /> : null}
     </div>
   );
 }
